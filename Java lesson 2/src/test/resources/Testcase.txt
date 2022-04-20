@@ -1,0 +1,22 @@
+Заголовок: Проверка поиска в Яндексе
+Приоритет: блокер!
+Тестовые данные: [
+[Selenide, is an open source library for test automation powered by Selenium WebDriver. Here, we run
+Selenium testing with Selenide using IntelliJ & Maven.]
+[JUnit, Support Junit]
+Предусловия: открыт браузер со страницей ya.ru
+
+
+
+Шаги:
+-Ввести слово {Тестовые данные[0]}
+-Нажать кнопку "Найти"
+
+
+Ожидаемый результат:
+Открылась страница результатов, содержащая карточку с текстом
+[Тестовые данные]
+
+
+ ######################################
+
