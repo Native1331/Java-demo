@@ -1,0 +1,3 @@
+rootProject.name = 'Java2HW'
+include 'domain'
+
