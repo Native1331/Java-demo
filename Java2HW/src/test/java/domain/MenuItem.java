@@ -1,7 +1,7 @@
 package domain;
 
 public enum MenuItem {
-    New("Новинки"), Location("Адреса");
+    NEW("Новинки"), LOCATION("Адреса");
 
     public final String rusName;
 
