@@ -1,23 +1,24 @@
-import com.beust.jcommander.Strings;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import domain.MenuItem;
-import jdk.dynalink.beans.StaticClass;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
-import org.openqa.selenium.By;
 
 import java.util.List;
 import java.util.stream.Stream;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.*;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selectors.byXpath;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
-public class JunitHomework {
+public class junitHomework {
 
     @BeforeAll
     public static void open() {
@@ -30,7 +31,7 @@ public class JunitHomework {
             "Юбка",
             "Шорты"})
     @ParameterizedTest(name = "Проверка поиска одежды по названию {0}")
-    void ClothesSearchTest(String clothes) {
+    void clothesSearchTest(String clothes) {
         //   Шаги:
         $("#header_user_menu_search_link").click();
         $("#form-search-input").setValue(clothes);
@@ -38,7 +39,7 @@ public class JunitHomework {
 
         //  Ожидаемый результат:
         $$(".search__wrapper")
-                .find(Condition.text(clothes))
+                .find(text(clothes))
                 .shouldBe(visible);
     }
 
@@ -51,7 +52,7 @@ public class JunitHomework {
 
 
     @ParameterizedTest(name = "Проверка поиска одежды из {0} и из {1} ")
-    void FullClothesSearchTest(String typeOfClothes, String sortOfClothes) {
+    void fullClothesSearchTest(String typeOfClothes, String sortOfClothes) {
         //   Шаги:
         $("#header_user_menu_search_link").click();
         $("#form-search-input").setValue(typeOfClothes);
@@ -63,7 +64,7 @@ public class JunitHomework {
 
     @EnumSource(MenuItem.class)
     @ParameterizedTest()
-    void SelaSearchMenuTest(MenuItem testData) {
+    void selaSearchMenuTest(MenuItem testData) {
 
         //   Шаги:
         $(byXpath("html/body/header/div/div/div[1]/nav/ul[1]/li[8]/a")).click();
@@ -72,12 +73,30 @@ public class JunitHomework {
         //  Ожидаемый результат:
         $$(".header__aside-menu")
 
-                .find(Condition.text(testData.rusName))
+                .find(text(testData.rusName))
                 .click();
         Assertions.assertEquals(
                 1,
                 WebDriverRunner.getWebDriver().getWindowHandles().size()
         );
+    }
+    static Stream<Arguments> methodSourceExampleTest() {
+        return Stream.of(
+                Arguments.of("девочки", List.of("для девочки")),
+                Arguments.of("мальчики", List.of("для мальчика"))
+        );
+    }
+
+
+    @MethodSource("methodSourceExampleTest")
+    @ParameterizedTest
+    void methodsourceExampleTest(String девочки, List<String> first){
+//      Шаги:
+                $("#header_user_menu_search_link").click();
+        $("#form-search-input").setValue(девочки);
+        $(".js-submit").click();
+        //  Ожидаемый результат:
+        $$(".search__wrapper").find(text(девочки));
     }
 
     @AfterAll
